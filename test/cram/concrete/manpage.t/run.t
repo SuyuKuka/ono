@@ -16,7 +16,7 @@ Test the output of the man page:
   
          --height=INT
              Define a height for --use-graphical-window option. Default value
-             is 600px.
+             is 720px.
   
          --print-steps=INT
              The last steps to display.
@@ -33,7 +33,7 @@ Test the output of the man page:
   
          --width=INT
              Define a width for --use-graphical-window option. Default value is
-             800px.
+             1280px.
   
   COMMON OPTIONS
          --color=WHEN (absent=auto)
