@@ -13,19 +13,23 @@ let print_i64 (n : Kdo.Concrete.I64.t) : (unit, _) Result.t =
 let random_i32 () : (Kdo.Concrete.I32.t, _) Result.t =
   let random = Random.int32 Int32.max_int in
   let result = Kdo.Concrete.I32.of_int32 random in
-  Ok (result)
+  Ok result
 
 let sleep (seconds : Kdo.Concrete.I32.t) : (unit, _) Result.t =
   Unix.sleep (Kdo.Concrete.I32.to_int seconds);
   Ok ()
 
 let cell_print (number : Kdo.Concrete.I32.t) : (unit, _) Result.t =
-  Buffer.add_string buf ( if Kdo.Concrete.I32.to_int number = 0 then "🦊" else "🦴" );
+  Buffer.add_string buf
+    (if Kdo.Concrete.I32.to_int number = 0 then "🦊" else "🦴");
   Ok ()
 
 let is_alive (number : Kdo.Concrete.I32.t) : (Kdo.Concrete.I32.t, _) Result.t =
-  let res = if Kdo.Concrete.I32.to_int number = 0 then Kdo.Concrete.I32.of_int 1 else Kdo.Concrete.I32.of_int 0 in
-  Ok (res)
+  let res =
+    if Kdo.Concrete.I32.to_int number = 0 then Kdo.Concrete.I32.of_int 1
+    else Kdo.Concrete.I32.of_int 0
+  in
+  Ok res
 
 let newline () : (unit, _) Result.t =
   Buffer.add_char buf '\n';
@@ -43,67 +47,63 @@ let empty_buffer () : (unit, _) Result.t =
 
 let config_height () : (Kdo.Concrete.I32.t, _) Result.t =
   let height = Game_config.height () in
-  (match height with
-    | Some value ->
+  match height with
+  | Some value ->
       let res = Kdo.Concrete.I32.of_int32 value in
-      Ok (res)
-    | None ->
+      Ok res
+  | None ->
       Logs.app (fun m -> m "Please enter a positive value for grid height.");
       let res = Kdo.Concrete.I32.of_int (read_int ()) in
-      Ok (res)
-  )
+      Ok res
 
 let config_width () : (Kdo.Concrete.I32.t, _) Result.t =
-   let width = Game_config.width () in
-  (match width with
-    | Some value ->
+  let width = Game_config.width () in
+  match width with
+  | Some value ->
       let res = Kdo.Concrete.I32.of_int32 value in
-      Ok (res)
-    | None ->
+      Ok res
+  | None ->
       Logs.app (fun m -> m "Please enter a positive value for grid width.");
       let res = Kdo.Concrete.I32.of_int (read_int ()) in
-      Ok (res)
-  )
+      Ok res
 
 let config_difficulty () : (Kdo.Concrete.I32.t, _) Result.t =
-   let difficulty = Game_config.difficulty() in
-  (match difficulty with
-    | Some value ->
+  let difficulty = Game_config.difficulty () in
+  match difficulty with
+  | Some value ->
       let res = Kdo.Concrete.I32.of_int32 value in
-      Ok (res)
-    | None ->
+      Ok res
+  | None ->
       Logs.app (fun m -> m "Please enter a positive value for game difficulty.");
-      Logs.app (fun m -> m "(Lower value increase amount of fox at the beginning)");
+      Logs.app (fun m ->
+          m "(Lower value increase amount of fox at the beginning)");
       let res = Kdo.Concrete.I32.of_int (read_int ()) in
-      Ok (res)
-  )
+      Ok res
 
 let config_steps () : (Kdo.Concrete.I32.t, _) Result.t =
   let steps = Game_config.steps () in
-  (match steps with
-   | Some value ->
-    let res = Kdo.Concrete.I32.of_int32 value in
-    Ok (res)
-   | None ->
-    let res = Kdo.Concrete.I32.of_int (-1) in
-    Ok (res)
-  )
+  match steps with
+  | Some value ->
+      let res = Kdo.Concrete.I32.of_int32 value in
+      Ok res
+  | None ->
+      let res = Kdo.Concrete.I32.of_int (-1) in
+      Ok res
 
 let config_prints () : (Kdo.Concrete.I32.t, _) Result.t =
   let steps = Game_config.prints () in
-  (match steps with
-   | Some value ->
-    let res = Kdo.Concrete.I32.of_int32 value in
-    Ok (res)
-   | None ->
-    let res = Kdo.Concrete.I32.of_int (-1) in
-    Ok (res)
-  )
+  match steps with
+  | Some value ->
+      let res = Kdo.Concrete.I32.of_int32 value in
+      Ok res
+  | None ->
+      let res = Kdo.Concrete.I32.of_int (-1) in
+      Ok res
 
 let read_int () : (Kdo.Concrete.I32.t, _) Result.t =
   let input = read_int () in
   let result = Kdo.Concrete.I32.of_int input in
-  Ok (result)
+  Ok result
 
 let begin_drawing () : (unit, _) Result.t =
   Graphics.Window.begin_drawing ();
@@ -114,15 +114,16 @@ let end_drawing () : (unit, _) Result.t =
   Ok ()
 
 let clear_window () : (unit, _) Result.t =
-  Graphics.Window.clear();
+  Graphics.Window.clear ();
   Ok ()
 
 let should_close () : (Kdo.Concrete.I32.t, _) Result.t =
   let res = Kdo.Concrete.I32.of_int (Graphics.Window.should_close ()) in
-  Ok (res)
+  Ok res
 
-let draw (alive : Kdo.Concrete.I32.t) (x : Kdo.Concrete.I32.t) (y : Kdo.Concrete.I32.t)
-(height : Kdo.Concrete.I32.t) (width : Kdo.Concrete.I32.t) : (unit, _) Result.t =
+let draw (alive : Kdo.Concrete.I32.t) (x : Kdo.Concrete.I32.t)
+    (y : Kdo.Concrete.I32.t) (height : Kdo.Concrete.I32.t)
+    (width : Kdo.Concrete.I32.t) : (unit, _) Result.t =
   let live = Kdo.Concrete.I32.to_int alive in
   let posX = Kdo.Concrete.I32.to_int x in
   let posY = Kdo.Concrete.I32.to_int y in
@@ -137,7 +138,7 @@ let close_window () : (unit, _) Result.t =
 
 let window_opened () : (Kdo.Concrete.I32.t, _) Result.t =
   let res = Kdo.Concrete.I32.of_int (Graphics.Window.initialized ()) in
-  Ok (res)
+  Ok res
 
 let m =
   let open Kdo.Concrete.Extern_func in
@@ -148,9 +149,9 @@ let m =
       ("print_i64", Extern_func (i64 ^->. unit, print_i64));
       ("random_i32", Extern_func (unit ^->. i32, random_i32));
       ("sleep", Extern_func (i32 ^->. unit, sleep));
-      ("cell_print",   Extern_func (i32  ^->. unit, cell_print));
-      ("is_alive",   Extern_func (i32  ^->. i32, is_alive));
-      ("newline",      Extern_func (unit ^->. unit, newline));
+      ("cell_print", Extern_func (i32 ^->. unit, cell_print));
+      ("is_alive", Extern_func (i32 ^->. i32, is_alive));
+      ("newline", Extern_func (unit ^->. unit, newline));
       ("clear_screen", Extern_func (unit ^->. unit, clear_screen));
       ("empty_buffer", Extern_func (unit ^->. unit, empty_buffer));
       ("config_height", Extern_func (unit ^->. i32, config_height));
@@ -163,9 +164,9 @@ let m =
       ("end_drawing", Extern_func (unit ^->. unit, end_drawing));
       ("clear_window", Extern_func (unit ^->. unit, clear_window));
       ("should_close", Extern_func (unit ^->. i32, should_close));
-      ("draw", Extern_func (i32 ^->i32 ^-> i32 ^-> i32 ^-> i32 ^->. unit, draw));
+      ("draw", Extern_func (i32 ^-> i32 ^-> i32 ^-> i32 ^-> i32 ^->. unit, draw));
       ("close_window", Extern_func (unit ^->. unit, close_window));
-      ("window_opened", Extern_func (unit ^->. i32, window_opened))
+      ("window_opened", Extern_func (unit ^->. i32, window_opened));
     ]
   in
   {
