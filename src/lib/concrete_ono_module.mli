@@ -7,7 +7,8 @@ val print_i64 : Kdo.Concrete.I64.t -> (unit, _) Result.t
 (** [random_i32 n] génère un entier aléatoire sur 32 bits. *)
 val random_i32 : unit -> (Kdo.Concrete.I32.t, _) Result.t
 
-(** [sleep seconds] met le processus durant [seconds]. *)
+(** [sleep seconds] met le processus durant [seconds] 
+    uniquement lorsqu'on est dans les étapes à afficher. Sinon l'attente est ignorée pour accélérer l'exécution. *)
 val sleep : Kdo.Concrete.I32.t -> (unit, _) Result.t 
 
 (** [cell_print number] ajoute dans le buffer une cellule (si number = 0 : 🦊 sinon 🦴). *)
