@@ -47,10 +47,15 @@ let newline () : (unit, _) Result.t =
   Ok ()
 
 let clear_screen () : (unit, _) Result.t =
-  let content = Buffer.contents buf in
-  Logs.app (fun m -> m "%s" content);
-  Buffer.clear buf;
-  Ok ()
+  if Graphics.Window.initialized () <> 0 then begin
+    Buffer.clear buf;
+    Ok ()
+  end else begin
+    let content = Buffer.contents buf in
+    Logs.app (fun m -> m "%s" content);
+    Buffer.clear buf;
+    Ok ()
+  end
 
 let empty_buffer () : (unit, _) Result.t =
   Buffer.clear buf;
