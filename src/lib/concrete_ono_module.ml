@@ -1,5 +1,3 @@
-type extern_func = Kdo.Concrete.Extern_func.extern_func
-
 let buf = Buffer.create 1024
 
 let print_i32 (n : Kdo.Concrete.I32.t) : (unit, _) Result.t =
