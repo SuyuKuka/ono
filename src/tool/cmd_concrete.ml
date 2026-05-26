@@ -68,8 +68,23 @@ let term =
      let w = match width with Some w -> w | None -> 1280 in
      let h = match height with Some h -> h | None -> 720 in
      Graphics.Window.create w h);
-  Ono.Concrete_driver.run ~source_file |> function
-  | Ok () -> Ok ()
-  | Error e -> Error (`Msg (Kdo.R.err_to_string e))
+  match (steps, print_steps) with
+  | None, Some _ ->
+      Error (`Msg "l'option --print-steps nécessite l'utilisation de --steps.")
+  | Some s, Some p when p > s ->
+      Error
+        (`Msg
+           (Printf.sprintf
+              "--print-steps (%d) ne peut pas être supérieur au nombre total \
+               de --steps (%d)."
+              p s))
+  | Some s, Some _ when s < 0 ->
+      Error (`Msg "--steps ne peut pas être un nombre négatif.")
+  | Some _, Some p when p < 0 ->
+      Error (`Msg "--print-steps ne peut pas être un nombre négatif.")
+  | _ -> (
+      Ono.Concrete_driver.run ~source_file |> function
+      | Ok () -> Ok ()
+      | Error e -> Error (`Msg (Kdo.R.err_to_string e)))
 
 let cmd : Ono_cli.outcome Cmd.t = Cmd.v info term
