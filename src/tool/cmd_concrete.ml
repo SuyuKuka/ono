@@ -80,7 +80,7 @@ let term =
               p s))
   | Some s, Some _ when s < 0 ->
       Error (`Msg "--steps ne peut pas être un nombre négatif.")
-  | Some p, Some _ when p < 0 ->
+  | Some _, Some p when p < 0 ->
       Error (`Msg "--print-steps ne peut pas être un nombre négatif.")
   | _ -> (
       Ono.Concrete_driver.run ~source_file |> function
