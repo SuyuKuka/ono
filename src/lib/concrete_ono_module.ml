@@ -15,16 +15,17 @@ let random_i32 () : (Kdo.Concrete.I32.t, _) Result.t =
   Ok result
 
 let sleep (seconds : Kdo.Concrete.I32.t) : (unit, _) Result.t =
-  let total_steps = 
-    match Game_config.steps () with Some s -> Int32.to_int s | None -> 0 
+  let total_steps =
+    match Game_config.steps () with Some s -> Int32.to_int s | None -> 0
   in
-  let print_steps = 
-    match Game_config.prints () with Some p -> Int32.to_int p | None -> total_steps 
+  let print_steps =
+    match Game_config.prints () with
+    | Some p -> Int32.to_int p
+    | None -> total_steps
   in
   let skip_limit = max 0 (total_steps - print_steps) in
   executed_steps := !executed_steps + 1;
-  if !executed_steps <= skip_limit then
-    Ok ()
+  if !executed_steps <= skip_limit then Ok ()
   else begin
     Unix.sleep (Kdo.Concrete.I32.to_int seconds);
     Ok ()
@@ -50,7 +51,8 @@ let clear_screen () : (unit, _) Result.t =
   if Graphics.Window.initialized () <> 0 then begin
     Buffer.clear buf;
     Ok ()
-  end else begin
+  end
+  else begin
     let content = Buffer.contents buf in
     Logs.app (fun m -> m "%s" content);
     Buffer.clear buf;

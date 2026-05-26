@@ -9,26 +9,26 @@ type t = {
 }
 [@@deriving sexp]
 
-(** [load file] récupère le fichier [file] et charge ses configs. *)
 val load : Fpath.t -> unit
+(** [load file] récupère le fichier [file] et charge ses configs. *)
 
-(** [height ()] retourne la hauteur de la grille sinon [None]. *)
 val height : unit -> int32 option
+(** [height ()] retourne la hauteur de la grille sinon [None]. *)
 
-(** [width ()] retourne la largeur de la grille sinon [None]. *)
 val width : unit -> int32 option
+(** [width ()] retourne la largeur de la grille sinon [None]. *)
 
-(** [difficulty ()] retourne la difficulté de la grille sinon [None]. *)
 val difficulty : unit -> int32 option
+(** [difficulty ()] retourne la difficulté de la grille sinon [None]. *)
 
-(** [set_steps value] met a jour le nombre d'étapes dans la simulation. *)
 val set_steps : int32 option -> unit
+(** [set_steps value] met a jour le nombre d'étapes dans la simulation. *)
 
-(** [steps ()] retourne le nombre d'étapes à simuler sinon [None]. *)
 val steps : unit -> int32 option
+(** [steps ()] retourne le nombre d'étapes à simuler sinon [None]. *)
 
-(** [set_prints value] met à jour le nombre d'affichage à afficher. *)
 val set_prints : int32 option -> unit
+(** [set_prints value] met à jour le nombre d'affichage à afficher. *)
 
-(** [prints ()] retourne le nombre d'affichage sinon [None]. *)
 val prints : unit -> int32 option
+(** [prints ()] retourne le nombre d'affichage sinon [None]. *)
