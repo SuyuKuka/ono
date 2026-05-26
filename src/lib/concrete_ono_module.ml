@@ -1,5 +1,4 @@
 let buf = Buffer.create 1024
-let executed_steps = ref 0
 
 let print_i32 (n : Kdo.Concrete.I32.t) : (unit, _) Result.t =
   Logs.app (fun m -> m "%a" Kdo.Concrete.I32.pp n);
@@ -15,21 +14,8 @@ let random_i32 () : (Kdo.Concrete.I32.t, _) Result.t =
   Ok result
 
 let sleep (seconds : Kdo.Concrete.I32.t) : (unit, _) Result.t =
-  let total_steps =
-    match Game_config.steps () with Some s -> Int32.to_int s | None -> 0
-  in
-  let print_steps =
-    match Game_config.prints () with
-    | Some p -> Int32.to_int p
-    | None -> total_steps
-  in
-  let skip_limit = max 0 (total_steps - print_steps) in
-  executed_steps := !executed_steps + 1;
-  if !executed_steps <= skip_limit then Ok ()
-  else begin
-    Unix.sleep (Kdo.Concrete.I32.to_int seconds);
-    Ok ()
-  end
+  Unix.sleep (Kdo.Concrete.I32.to_int seconds);
+  Ok ()
 
 let cell_print (number : Kdo.Concrete.I32.t) : (unit, _) Result.t =
   Buffer.add_string buf
